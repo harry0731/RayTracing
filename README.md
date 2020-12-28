@@ -6,8 +6,7 @@ This project is based on [Ray Tracing in One Weekend](https://raytracing.github.
 Installation  
 ```sh
 apt-get update
-apt install build-essentia
-apt-get install gcc g++
+apt-get install build-essential
 ```
 
 Compile  
