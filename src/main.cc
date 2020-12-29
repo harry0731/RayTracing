@@ -1,6 +1,8 @@
 #include "color.h"
 #include "ray.h"
 #include "vec3.h"
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "tools/stb_image_write.h"
 
 #include <iostream>
 
@@ -17,6 +19,8 @@ int main() {
     const int image_width = 400;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
 
+    unsigned char data[image_width * image_height * 3];
+
     // Camera
 
     auto viewport_height = 2.0;
@@ -31,7 +35,7 @@ int main() {
     // Render
 
     std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
-
+    int index = 0;
     for (int j = image_height-1; j >= 0; --j) {
         std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
         for (int i = 0; i < image_width; ++i) {
@@ -39,8 +43,13 @@ int main() {
             auto v = double(j) / (image_height-1);
             ray r(origin, lower_left_corner + u*horizontal + v*vertical - origin);
             color pixel_color = ray_color(r);
-            write_color(std::cout, pixel_color);
+            // write_color(std::cout, pixel_color);
+            data[index++] = (unsigned char)(255.999 * pixel_color.x());
+            data[index++] = (unsigned char)(255.999 * pixel_color.y());
+            data[index++] = (unsigned char)(255.999 * pixel_color.z());
         }
     }
-    std::cerr << "\nDone.\n";
+    // std::cerr << "\nDone.\n";
+
+    stbi_write_jpg("image.jpg", image_width, image_height, 3, data, 100);
 }
