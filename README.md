@@ -11,10 +11,10 @@ apt-get install build-essential
 
 Compile  
 ```sh
-g++ -o main main.cc
+g++ -o main src/main.cc
 ```  
 
 Run  
 ```sh
-./main > image.ppm
+./main
 ```
